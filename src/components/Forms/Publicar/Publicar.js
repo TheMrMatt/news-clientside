@@ -128,7 +128,9 @@ const Publicar = () => {
 
 
 
-
+                            for (var value of data.values()) {
+                                console.log(value);
+                            }
 
                             if (guardar) {
                                 startLoading()
