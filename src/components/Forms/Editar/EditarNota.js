@@ -14,9 +14,9 @@ const EditarNota = ({ nota }) => {
     const [url, setUrl] = useState("")
     const [input, setInput] = useState('');
     const [tags, setTags] = useState([]);
-    const [cate, setCate] = useState('');
+    const [cate, setCate] = useState(nota.categoria);
     const [activ, setActiv] = useState(true);
-    const [sub, setSub] = useState('');
+    const [sub, setSub] = useState(nota.subCategoria);
     let data = JSON.parse(localStorage.getItem('data'));
     const token = data.accessToken;
     let history = useNavigate();
@@ -34,8 +34,6 @@ const EditarNota = ({ nota }) => {
 
     useEffect(
         () => {
-            setCate(nota.categoria);
-            setSub(nota.subCategoria);
             nota.tags.map(tag => setTags(prevState => [...prevState, tag]))
         }, [])
 
