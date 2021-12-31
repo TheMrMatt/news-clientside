@@ -42,7 +42,8 @@ export default (state, action) => {
     case 'NOTA_ERROR':
       return {
         ...state,
-        error: action.payload
+        error: action.payload,
+        loading: false
       }
     default:
       return state;
