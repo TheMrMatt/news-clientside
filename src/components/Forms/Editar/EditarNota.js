@@ -1,4 +1,4 @@
-import React, { useRef, useContext, useState } from 'react'
+import React, { useRef, useContext, useState, useEffect } from 'react'
 import { Container, Wrapper, FormulatioTitular, Formulario, ButtonCancel, ButtonSubmit, ButtonsWrapper, FileInput, FileLabel, InputContainer, TagsContainer, TagsWrapper, EliminarTag } from './Elements'
 import { Editor } from '@tinymce/tinymce-react';
 import { Formik, Form } from 'formik';
@@ -7,21 +7,22 @@ import Inputs from '../Inputs';
 import { NotasContext } from '../../../Store/context/NotasContext'
 import { useNavigate } from 'react-router-dom'
 import Tag from '../../Tag/Tag';
-import { useEffect } from 'react/cjs/react.development';
+
 
 const EditarNota = ({ nota }) => {
-    const { updateNota, startLoading } = useContext(NotasContext)
+
     const [url, setUrl] = useState("")
     const [input, setInput] = useState('');
     const [tags, setTags] = useState([]);
     const [cate, setCate] = useState(nota.categoria);
     const [activ, setActiv] = useState(true);
     const [sub, setSub] = useState(nota.subCategoria);
+
+    const editorRef = useRef(null);
+    let history = useNavigate();
     let data = JSON.parse(localStorage.getItem('data'));
     const token = data.accessToken;
-    let history = useNavigate();
-    const editorRef = useRef(null);
-
+    const { updateNota, startLoading } = useContext(NotasContext)
     const deportes = [
         'Futbol',
         'Tenis',
@@ -32,7 +33,12 @@ const EditarNota = ({ nota }) => {
         'Teatro'
     ]
 
-
+    useEffect(
+        () => {
+            setCate(nota.categoria);
+            setSub(nota.subCategoria);
+            nota.tags.map(tag => setTags(prevState => [...prevState, tag]))
+        }, [])
 
     const onChange = (e) => {
         const { value } = e.target;
