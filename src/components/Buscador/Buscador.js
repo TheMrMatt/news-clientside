@@ -6,8 +6,8 @@ const Buscador = () => {
     const [value, setValue] = useState('')
 
     const onChange = (e) => {
-
-        setValue(e.target.value);
+        const { v } = e.target.value;
+        setValue(v);
     };
 
     const mostrar = () => {

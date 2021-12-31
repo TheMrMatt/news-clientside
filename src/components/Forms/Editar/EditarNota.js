@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router-dom'
 import Tag from '../../Tag/Tag';
 import { useEffect } from 'react/cjs/react.development';
 
-const EditarNota = ({ nota, notas }) => {
+const EditarNota = ({ nota }) => {
     const { updateNota, startLoading } = useContext(NotasContext)
     const [url, setUrl] = useState("")
     const [input, setInput] = useState('');
@@ -43,12 +43,14 @@ const EditarNota = ({ nota, notas }) => {
         setInput(value);
     };
     const onChangeC = (e) => {
+        const { value } = e.target.value;
         setActiv(false);
-        setCate(e.target.value);
+        setCate(value);
 
     };
     const onChangeS = (e) => {
-        setSub(e.target.value);
+        const { value } = e.target.value;
+        setSub(value);
 
     };
     const onKeyDown = (e) => {
@@ -84,7 +86,7 @@ const EditarNota = ({ nota, notas }) => {
     }
 
 
-    console.log(nota.tags, tags);
+
 
     return (
         <>

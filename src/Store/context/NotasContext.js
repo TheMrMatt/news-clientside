@@ -157,11 +157,12 @@ export const NotasProvider = ({ children }) => {
             });
 
         } catch (err) {
+            console.log('error', err.response);
             dispatch({
                 type: 'NOTA_ERROR',
                 payload: err.response
             });
-            console.log('error', err.response);
+
             toast.error(err.response, { position: toast.POSITION.TOP_RIGHT, autoClose: false })
         }
     }

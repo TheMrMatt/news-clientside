@@ -21,14 +21,15 @@ const EditarArticulo = () => {
 
     const camp = useParams();
 
-
-    if (loading) {
+    if (loadingUser) {
+        return <LoadingScreen />
+    } else if (loading) {
         return <LoadingScreen />
     } else {
         return (
             <>
                 <Header user={user} cat='Editar Nota' loading={loadingUser} />
-                <EditarNota nota={nota} notas={notas} />
+                <EditarNota nota={nota} />
             </>
         )
     }
