@@ -22,17 +22,25 @@ const initialState = {
     error: '',
 
 }
-//va a fallar los mas recientes seguramente, no hay acciones ni funciones que lo llenen
+
+const url = 'https://news-server-context.herokuapp.com';
+//va a fallar los mas recientes seguramente, no hay acciones ni funciones que lo llenen https://news-server-context.herokuapp.com
 export const BorradorContext = createContext(initialState)
 
 export const BorradorProvider = ({ children }) => {
     const [state, dispatch] = useReducer(BorradorReducer, initialState)
 
-    async function populateBorrador(id) {
+    async function populateBorrador(id, token) {
 
         try {
-            const res = await axios.get(`https://news-server-context.herokuapp.com/borrador/${id}`);
-            console.log(res)
+            const config = {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'authorization': `Bearer ${token}`
+                }
+            }
+            const res = await axios.get(`${url}/borrador/${id}`, config);
+
 
             dispatch({
                 type: 'GET_B',
@@ -54,7 +62,7 @@ export const BorradorProvider = ({ children }) => {
         //usar esta accion para llamar a todas las notas, filtrar desde el front 
 
         try {
-            const res = await axios.get('https://news-server-context.herokuapp.com/borrador/all')
+            const res = await axios.get(`${url}/borrador/all`)
 
             dispatch({
                 type: 'GET_BORRADOR',
@@ -70,10 +78,11 @@ export const BorradorProvider = ({ children }) => {
 
     }
 
-    async function updateBorrador(id, nota, redirect) {
+    async function updateBorrador(id, nota, redirect, token) {
         const config = {
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'authorization': `Bearer ${token}`
             },
             body: nota,
         }
@@ -83,8 +92,8 @@ export const BorradorProvider = ({ children }) => {
             for (var value of nota.values()) {
                 console.log(value);
             }
-            const res = await axios.put(`https://news-server-context.herokuapp.com/borrador/${id}`, nota, config)
-            console.log('response', res.data.data);
+            const res = await axios.put(`${url}/borrador/${id}`, nota, config)
+
             redirect()
             toast.success('La nota fue editada con exito', { position: toast.POSITION.TOP_RIGHT, autoClose: false })
 
@@ -104,36 +113,45 @@ export const BorradorProvider = ({ children }) => {
     }
 
 
-    async function deleteBorrador(id) {
+    async function deleteBorrador(id, token) {
 
 
         try {
-            await axios.delete(`https://news-server-context.herokuapp.com/borrador/${id}`)
+            const config = {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'authorization': `Bearer ${token}`
+                },
+            }
+            await axios.delete(`${url}/borrador/${id}`, config)
+            toast.success('Nota eliminada', { position: toast.POSITION.TOP_RIGHT, autoClose: false })
             dispatch({
                 type: 'DELETE_NOTA',
                 payload: id
             });
-            toast.success('Nota eliminada', { position: toast.POSITION.TOP_RIGHT, autoClose: false })
+
         } catch (err) {
+
+            toast.error(err.response.data.error, { position: toast.POSITION.TOP_RIGHT, autoClose: false })
             dispatch({
                 type: 'NOTA_ERROR',
                 payload: err.response.data.error
             });
-            toast.error(err.response.data.error, { position: toast.POSITION.TOP_RIGHT, autoClose: false })
         }
 
     }
 
-    async function addBorrador(nota, redirect) {
+    async function addBorrador(nota, redirect, token) {
         const config = {
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'authorization': `Bearer ${token}`
             },
             body: nota,
         }
 
         try {
-            const res = await axios.post(`https://news-server-context.herokuapp.com/borrador`, nota, config);
+            const res = await axios.post(`${url}/borrador`, nota, config);
 
             dispatch({
                 type: 'ADD_BORRADOR',

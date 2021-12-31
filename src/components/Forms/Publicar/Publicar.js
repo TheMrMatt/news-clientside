@@ -8,6 +8,7 @@ import { NotasContext } from '../../../Store/context/NotasContext'
 import { useNavigate } from 'react-router-dom'
 import { BorradorContext } from '../../../Store/context/BorradorContext';
 import Tag from '../../Tag/Tag';
+import { UserContext } from '../../../Store/context/UserContext';
 
 const Publicar = () => {
     const [selected, setSelected] = useState('')
@@ -20,8 +21,11 @@ const Publicar = () => {
     const [url, setUrl] = useState("")
     const editorRef = useRef(null);
     let history = useNavigate();
+    let data = JSON.parse(localStorage.getItem('data'));
+    const token = data.accessToken;
     const { addNota, startLoading } = useContext(NotasContext)
     const { addBorrador } = useContext(BorradorContext)
+    const { user } = useContext(UserContext)
     const deportes = [
         'Futbol',
         'Tenis',
@@ -81,7 +85,7 @@ const Publicar = () => {
 
     let type = null;
     let options = null;
-
+    console.log();
     if (selected === "Deportes") {
         type = deportes;
     } else if (selected === "Espectaculos") {
@@ -134,10 +138,10 @@ const Publicar = () => {
 
                             if (guardar) {
                                 startLoading()
-                                addBorrador(data, () => history('/publicaciones', { replace: true }))
+                                addBorrador(data, () => history('/publicaciones', { replace: true }), token)
                             } else {
                                 startLoading()
-                                addNota(data, () => history('/publicaciones', { replace: true }))
+                                addNota(data, () => history('/publicaciones', { replace: true }), token)
                             }
 
                         }

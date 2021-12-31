@@ -9,7 +9,7 @@ const LoginPage = () => {
     const { user, auth, loadingUser, isLoggedIn } = useContext(UserContext)
     let history = useNavigate();
     useEffect(() => {
-        const loggedInUser = localStorage.getItem("user");
+        const loggedInUser = localStorage.getItem("data");
         if (loggedInUser) {
             const foundUser = JSON.parse(loggedInUser);
             console.log('user ', foundUser)

@@ -22,17 +22,24 @@ const initialState = {
     error: '',
 
 }
+const url = 'https://news-server-context.herokuapp.com';
 //va a fallar los mas recientes seguramente, no hay acciones ni funciones que lo llenen
 export const NotasContext = createContext(initialState)
 
 export const NotasProvider = ({ children }) => {
     const [state, dispatch] = useReducer(NotasReducer, initialState)
 
-    async function populateNota(id, notas) {
+    async function populateNota(id, token) {
 
         try {
-            const res = await axios.get(`https://news-server-context.herokuapp.com/nota/${id}`);
-            console.log(res)
+            const config = {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'authorization': `Bearer ${token}`
+                }
+            }
+            const res = await axios.get(`${url}/nota/${id}`, config);
+
 
             dispatch({
                 type: 'GET_NOTA',
@@ -54,7 +61,7 @@ export const NotasProvider = ({ children }) => {
         //usar esta accion para llamar a todas las notas, filtrar desde el front 
 
         try {
-            const res = await axios.get('https://news-server-context.herokuapp.com/nota/all')
+            const res = await axios.get('/nota/all')
 
             dispatch({
                 type: 'GET_NOTAS',
@@ -70,11 +77,17 @@ export const NotasProvider = ({ children }) => {
 
     }
 
-    async function deleteNota(id) {
+    async function deleteNota(id, token) {
 
 
         try {
-            await axios.delete(`https://news-server-context.herokuapp.com/nota/${id}`)
+            const config = {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'authorization': `Bearer ${token}`
+                }
+            }
+            await axios.delete(`${url}/nota/${id}`, config)
             dispatch({
                 type: 'DELETE_NOTA',
                 payload: id
@@ -90,36 +103,39 @@ export const NotasProvider = ({ children }) => {
 
     }
 
-    async function addNota(nota, redirect) {
+    async function addNota(nota, redirect, token) {
         const config = {
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'authorization': `Bearer ${token}`
             },
-            body: nota,
+            body: nota
         }
-        console.log(nota);
-        try {
-            const res = await axios.post(`https://news-server-context.herokuapp.com/nota/all`, nota, config);
 
+        try {
+            const res = await axios.post(`${url}/nota/all`, nota, config);
+
+            redirect()
+            toast.success('Nota Publicada', { position: toast.POSITION.TOP_RIGHT, autoClose: false })
             dispatch({
                 type: 'ADD_NOTA',
                 payload: res.data.data
             });
-            toast.success('Nota Publicada', { position: toast.POSITION.TOP_RIGHT, autoClose: false })
-            redirect()
         } catch (err) {
+            redirect()
+            toast.error(err.response.data.error, { position: toast.POSITION.TOP_RIGHT, autoClose: false })
             dispatch({
                 type: 'NOTA_ERROR',
                 payload: err.response.data.error
             });
-            toast.error(err.response.data.error, { position: toast.POSITION.TOP_RIGHT, autoClose: false })
         }
     }
 
-    async function updateNota(id, nota, redirect) {
+    async function updateNota(id, nota, redirect, token) {
         const config = {
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'authorization': `Bearer ${token}`
             },
             body: nota,
         }
@@ -129,7 +145,7 @@ export const NotasProvider = ({ children }) => {
             for (var value of nota.values()) {
                 console.log(value);
             }
-            const res = await axios.put(`https://news-server-context.herokuapp.com/nota/${id}`, nota, config)
+            const res = await axios.put(`${url}/nota/${id}`, nota, config)
             console.log('response', res.data.data);
             redirect()
             toast.success('La nota fue editada con exito', { position: toast.POSITION.TOP_RIGHT, autoClose: false })
@@ -153,7 +169,7 @@ export const NotasProvider = ({ children }) => {
         try {
 
 
-            const res = await axios.get(`https://news-server-context.herokuapp.com/nota/last`)
+            const res = await axios.get(`/nota/last`)
 
             dispatch({
                 type: 'GET_RECIENTES',

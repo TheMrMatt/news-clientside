@@ -15,6 +15,8 @@ const initialState = {
 
 }
 
+const url = 'https://news-server-context.herokuapp.com';
+
 export const PortadaContext = createContext(initialState)
 
 export const PortadaProvider = ({ children }) => {
@@ -22,7 +24,7 @@ export const PortadaProvider = ({ children }) => {
 
     async function getPortadas() {
         try {
-            const res = await axios.get('https://news-server-context.herokuapp.com/portadas')
+            const res = await axios.get(`${url}/portadas`)
 
             dispatch({
                 type: 'GET_PORTADAS',
@@ -33,10 +35,11 @@ export const PortadaProvider = ({ children }) => {
         }
     }
 
-    async function updatePortada(id, n, oldPortada) {
+    async function updatePortada(id, n, oldPortada, token) {
         const config = {
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'authorization': `Bearer ${token}`
             }
         }
 
@@ -65,7 +68,7 @@ export const PortadaProvider = ({ children }) => {
             secundario
         }
         try {
-            const res = await axios.put(`https://news-server-context.herokuapp.com/${id}`, { ...newP }, config);
+            const res = await axios.put(`${url}/${id}`, { ...newP }, config);
 
             dispatch({
                 type: 'UPDATE_PORTADA',

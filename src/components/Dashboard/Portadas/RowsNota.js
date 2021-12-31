@@ -10,7 +10,8 @@ const RowsNota = ({ dato, notas }) => {
     const [enable, setEnable] = useState(true)
     const { deleteNota, startLoading, loading } = useContext(NotasContext)
     let history = useNavigate();
-
+    let data = JSON.parse(localStorage.getItem('data'));
+    const token = data.accessToken;
     const edit = () => {
         history(`/editar/${dato._id}`, { replace: true })
         startLoading()
@@ -42,7 +43,7 @@ const RowsNota = ({ dato, notas }) => {
                         <ButtonsWrap>
                             <BWrap>
                                 <Edit onClick={() => edit()}><EditarIcon /></Edit>
-                                <Edit onClick={() => deleteNota(dato._id)}><DeleteIcon /></Edit>
+                                <Edit onClick={() => deleteNota(dato._id, token)}><DeleteIcon /></Edit>
                             </BWrap>
                         </ButtonsWrap>
 

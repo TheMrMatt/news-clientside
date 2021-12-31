@@ -22,7 +22,7 @@ const initialState = {
     loadingUser: false
 
 }
-
+const url = 'https://news-server-context.herokuapp.com';
 export const UserContext = createContext(initialState)
 
 export const UserProvider = ({ children }) => {
@@ -45,7 +45,7 @@ export const UserProvider = ({ children }) => {
 
     async function getUsers() {
         try {
-            const res = await axios.get('https://news-server-context.herokuapp.com/register');
+            const res = await axios.get(`${url}/register`);
 
 
             dispatch({
@@ -60,7 +60,7 @@ export const UserProvider = ({ children }) => {
     async function getUser(userId) {
         // trae el usuario para cargar informacion necesaria de otro usuario
         try {
-            const res = await axios.get(`https://news-server-context.herokuapp.com/user/${userId}`);
+            const res = await axios.get(`${url}/user/${userId}`);
 
 
 
@@ -88,7 +88,7 @@ export const UserProvider = ({ children }) => {
         }
 
         try {
-            const res = await axios.post('https://news-server-context.herokuapp.com/register', user, config)
+            const res = await axios.post(`${url}/register`, user, config)
 
             dispatch({
                 type: 'REGISTER',
@@ -100,12 +100,17 @@ export const UserProvider = ({ children }) => {
     }
 
     async function login(user, redirect) {
-
+        const config = {
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: user
+        }
         try {
-            const res = await axios.post('https://news-server-context.herokuapp.com/login', user)
-            console.log(res)
+            const res = await axios.post(`${url}/login`, user, config)
+
             redirect()
-            localStorage.setItem('user', JSON.stringify(res.data.user))
+            localStorage.setItem('data', JSON.stringify(res.data))
             dispatch({
                 type: 'LOGIN',
                 payload: res.data.user
@@ -136,7 +141,7 @@ export const UserProvider = ({ children }) => {
     async function logout(redirect) {
 
         try {
-            const res = await axios.get('https://news-server-context.herokuapp.com/logout')
+            const res = await axios.get(`${url}/logout`)
             localStorage.clear()
             redirect();
             dispatch(
@@ -155,10 +160,10 @@ export const UserProvider = ({ children }) => {
     async function isLoggedIn(userp) {
 
         try {
-            console.log('user in isLoggedIn', userp)
+
             dispatch({
                 type: 'LOGIN',
-                payload: userp
+                payload: userp.user
             });
         } catch (err) {
             console.log('error', err)

@@ -11,8 +11,10 @@ const Portadas = ({ portada, loading }) => {
 
     const { portadas, getPortadas, loadingP } = useContext(PortadaContext)
     const { populateNotas, notas } = useContext(NotasContext);
+    let data = JSON.parse(localStorage.getItem('data'));
+    const token = data.accessToken;
     useEffect(() => {
-        getPortadas()
+        getPortadas(token)
         populateNotas()
     }, [loadingP])
     console.log('portadas en el componente', portadas)

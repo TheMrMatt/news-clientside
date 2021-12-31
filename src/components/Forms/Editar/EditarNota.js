@@ -17,6 +17,8 @@ const EditarNota = ({ nota, notas }) => {
     const [cate, setCate] = useState('');
     const [activ, setActiv] = useState(true);
     const [sub, setSub] = useState('');
+    let data = JSON.parse(localStorage.getItem('data'));
+    const token = data.accessToken;
     let history = useNavigate();
     const editorRef = useRef(null);
 
@@ -132,7 +134,7 @@ const EditarNota = ({ nota, notas }) => {
                             }
 
                             startLoading()
-                            updateNota(nota._id, data, () => history('/publicaciones', { replace: true }))
+                            updateNota(nota._id, data, () => history('/publicaciones', { replace: true }), token)
 
                         }
 

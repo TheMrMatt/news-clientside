@@ -11,7 +11,8 @@ const RowBorrador = ({ dato }) => {
     const [enable, setEnable] = useState(true)
     const { startLoading, loadingB, deleteBorrador } = useContext(BorradorContext)
     let history = useNavigate();
-
+    let data = JSON.parse(localStorage.getItem('data'));
+    const token = data.accessToken;
     const edit = () => {
         history(`/borradores/${dato._id}`, { replace: true })
         startLoading()
@@ -43,7 +44,7 @@ const RowBorrador = ({ dato }) => {
                         <ButtonsWrap>
                             <BWrap>
                                 <Edit onClick={() => edit()}><EditarIcon /></Edit>
-                                <Edit onClick={() => deleteBorrador(dato._id)}><DeleteIcon /></Edit>
+                                <Edit onClick={() => deleteBorrador(dato._id, token)}><DeleteIcon /></Edit>
                             </BWrap>
                         </ButtonsWrap>
 

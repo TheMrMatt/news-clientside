@@ -11,12 +11,14 @@ import Borradores from '../../components/Publicaciones/Borradores'
 const Borrador = () => {
     const { user, loadingUser } = useContext(UserContext)
     const { getBorrador, notas, loadingB } = useContext(BorradorContext)
+
+
     useEffect(() => {
         getBorrador()
     }, [loadingB])
 
 
-    console.log(notas);
+
     if (loadingB) {
         return <LoadingScreen />
     } if (loadingUser) {

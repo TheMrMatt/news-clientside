@@ -10,16 +10,18 @@ const NotaArchivo = () => {
     const { user, userSearch, getUser, loadingUser } = useContext(UserContext)
     const { nota, populateNota, loading } = useContext(NotasContext)
     const camp = useParams();
+    let data = JSON.parse(localStorage.getItem('data'));
+    const token = data.accessToken;
     useEffect(() => {
-        populateNota(camp.id)
+        populateNota(camp.id, token)
     }, [loading])
     useEffect(() => {
         if (nota.autor != undefined) {
-            getUser(nota.autor)
+            getUser(nota.autor, token)
         }
 
     }, [loading])
-    console.log(nota);
+
     if (loading) {
         return <LoadingScreen />
     }

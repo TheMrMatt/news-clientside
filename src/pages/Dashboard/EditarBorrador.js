@@ -9,8 +9,10 @@ import { BorradorContext } from '../../Store/context/BorradorContext'
 import PublicarBorrador from '../../components/Forms/Publicar/PublicarBorrador'
 
 const EditarBorrador = () => {
+    let data = JSON.parse(localStorage.getItem('data'));
+    const token = data.accessToken;
     useEffect(() => {
-        populateBorrador(camp.id)
+        populateBorrador(camp.id, token)
     }, [])
 
     const { user, loadingUser } = useContext(UserContext)

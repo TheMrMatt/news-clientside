@@ -7,7 +7,8 @@ const Rows = ({ dato, notas, nota = false }) => {
     const [enable, setEnable] = useState(true)
 
     const { updatePortada, portadas, loadingP, startLoading } = useContext(PortadaContext)
-
+    let data = JSON.parse(localStorage.getItem('data'));
+    const token = data.accessToken;
     const valores = () => {
         startLoading()
         console.log('hola', dato.portada)
@@ -19,7 +20,7 @@ const Rows = ({ dato, notas, nota = false }) => {
         });
         console.log('asdaw', filtrado)
 
-        updatePortada(dato._id, filtrado, dato.portada)
+        updatePortada(dato._id, filtrado, dato.portada, token)
     }
 
     if (loadingP) {

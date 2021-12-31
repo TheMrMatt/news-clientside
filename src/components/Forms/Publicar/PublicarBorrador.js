@@ -20,6 +20,8 @@ const PublicarBorrador = ({ nota }) => {
     const [sub, setSub] = useState('');
     const editorRef = useRef(null);
     let history = useNavigate();
+    let data = JSON.parse(localStorage.getItem('data'));
+    const token = data.accessToken;
     const { addNota, startLoading } = useContext(NotasContext)
     const { addBorrador, deleteBorrador, updateBorrador } = useContext(BorradorContext)
     const deportes = [
@@ -135,11 +137,11 @@ const PublicarBorrador = ({ nota }) => {
 
                             if (guardar) {
                                 startLoading()
-                                updateBorrador(nota._id, data, () => history('/publicaciones', { replace: true }))
+                                updateBorrador(nota._id, data, () => history('/publicaciones', { replace: true }), token)
                             } else {
                                 startLoading()
-                                addNota(data, () => history('/publicaciones', { replace: true }))
-                                deleteBorrador(nota._id)
+                                addNota(data, () => history('/publicaciones', { replace: true }), token)
+                                deleteBorrador(nota._id, token)
                             }
 
                         }

@@ -7,9 +7,10 @@ import { useParams } from 'react-router';
 import LoadingScreen from '../Especials/LoadingScreen'
 
 const EditarArticulo = () => {
-
+    let data = JSON.parse(localStorage.getItem('data'));
+    const token = data.accessToken;
     useEffect(() => {
-        populateNota(camp.id, notas)
+        populateNota(camp.id, token)
     }, [])
 
     const { user, loadingUser } = useContext(UserContext)
