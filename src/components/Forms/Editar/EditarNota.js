@@ -32,10 +32,7 @@ const EditarNota = ({ nota }) => {
         'Teatro'
     ]
 
-    useEffect(
-        () => {
-            nota.tags.map(tag => setTags(prevState => [...prevState, tag]))
-        }, [])
+
 
     const onChange = (e) => {
         const { value } = e.target;

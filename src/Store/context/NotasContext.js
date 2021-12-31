@@ -46,12 +46,12 @@ export const NotasProvider = ({ children }) => {
                 payload: res.data.data
             });
         } catch (err) {
-            console.log(err);
+            toast.error(err, { position: toast.POSITION.TOP_RIGHT, autoClose: false })
             dispatch({
                 type: 'NOTA_ERROR',
                 payload: err
             });
-            toast.error(err, { position: toast.POSITION.TOP_RIGHT, autoClose: false })
+
         }
 
     }
