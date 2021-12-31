@@ -20,7 +20,7 @@ const EditarArticulo = () => {
 
 
     const camp = useParams();
-    console.log(user);
+
 
     if (loading) {
         return <LoadingScreen />

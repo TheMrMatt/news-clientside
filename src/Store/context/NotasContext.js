@@ -46,6 +46,7 @@ export const NotasProvider = ({ children }) => {
                 payload: res.data.data
             });
         } catch (err) {
+            console.log(err);
             dispatch({
                 type: 'NOTA_ERROR',
                 payload: err.response.data.error
