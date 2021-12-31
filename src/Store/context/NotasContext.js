@@ -61,7 +61,7 @@ export const NotasProvider = ({ children }) => {
         //usar esta accion para llamar a todas las notas, filtrar desde el front 
 
         try {
-            const res = await axios.get('/nota/all')
+            const res = await axios.get(`${url}/nota/all`)
 
             dispatch({
                 type: 'GET_NOTAS',
@@ -169,7 +169,7 @@ export const NotasProvider = ({ children }) => {
         try {
 
 
-            const res = await axios.get(`/nota/last`)
+            const res = await axios.get(`${url}/nota/last`)
 
             dispatch({
                 type: 'GET_RECIENTES',
