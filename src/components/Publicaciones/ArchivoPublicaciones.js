@@ -3,7 +3,7 @@ import { Container, Wrapper, Header, Titulo, Filtrar, PubliContainer, Categorias
 import CardDash from '../NewsCards/CardDashboard/CardDash'
 import { Table, TableBody } from '../Dashboard/Portadas/Elements'
 import RowsArchivo from '../Dashboard/Portadas/RowsArchivo'
-import Buscador from '../Buscador/Buscador'
+
 
 const ArchivoPublicaciones = ({ notas }) => {
     return (
@@ -14,7 +14,7 @@ const ArchivoPublicaciones = ({ notas }) => {
                         <Titulo>Todas las Publicaciones</Titulo>
                         <Filtrar />
                     </Header>
-                    <Buscador />
+
                     <PubliContainer>
                         <Table>
                             <TableBody>

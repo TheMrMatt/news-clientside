@@ -29,10 +29,10 @@ const EditarArticulo = () => {
         return (
             <>
                 <Header user={user} cat='Editar Nota' loading={loadingUser} />
-                <EditarNota nota={nota} />
+
             </>
         )
     }
 }
-
+//<EditarNota nota={nota} />
 export default EditarArticulo

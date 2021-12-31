@@ -31,6 +31,7 @@ const EditarNota = ({ nota }) => {
         'Cine',
         'Teatro'
     ]
+
     useEffect(
         () => {
             setCate(nota.categoria);
